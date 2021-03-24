@@ -43,24 +43,22 @@ def readMapFile(fileName='map'):
 def DisplayBoard():
     global BOARD, TILECOUNT
     TileSize = floor(min(SCREEN_WIDTH, SCREEN_HEIGHT)/TILECOUNT)
-    print (TileSize)
     for row in BOARD:
         for item in enumerate(BOARD[row]):
             Image =pygame.transform.scale(getImage(item[1]), (TileSize, TileSize))
-            SCREEN.blit(Image, (row*TileSize, item[0]*TileSize))
+            SCREEN.blit(Image, (item[0]*TileSize, row*TileSize))
 
 
 def getImage(TileName):
     TileName = [tile.lstrip() for tile in TileName.split('_')]
-    if TileName[0] == 'Nodes':
+    if TileName[0] == 'Paths':
         global PathsImageDict
         return PathsImageDict[TileName[1]]
-    elif TileName[0] == 'Paths':
+    elif TileName[0] == 'Nodes':
         global NodesImageDict
         return NodesImageDict[TileName[1]]
     else:
         global FountainImageDict
-        print (TileName)
         return FountainImageDict[TileName[1]]
 
 # used to simmulate mixing Colors 
