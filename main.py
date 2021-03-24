@@ -5,7 +5,12 @@ from pygame.locals import(
     QUIT,
 )
 
-#Function
+class Tile(object):
+    def __init__(self, atype, position, RGB, Rotation=0):
+        self.type = atype
+
+
+# Function
 
 def loadImagesWithName():
     global NodesImageDict, PathsImageDict
@@ -22,9 +27,8 @@ def loadImagesWithName():
                 NodesImageDict[path.split('\\')[-1].split('.')[0]] = Image
             elif Folder == ('Fountains'):
                 FountainImageDict[path.split('\\')[-1].split('.')[0]] = Image
-            else: 
+            else:
                 PathsImageDict[path.split('\\')[-1].split('.')[0]] = Image
-
 
 
 def readMapFile(fileName='map'):
@@ -33,11 +37,10 @@ def readMapFile(fileName='map'):
         for row in enumerate(MapData):
             Value = [Tile.rstrip() for Tile in row[1].split(',')]
             BOARD[row[0]] = Value
-    TILECOUNT = len(BOARD) #Used to check which dimesion is the most
+    TILECOUNT = len(BOARD)  # Used to check which dimesion is the most
     for i in BOARD.values():
-        if len(i) > TILECOUNT: TILECOUNT = len(i)
-
-
+        if len(i) > TILECOUNT:
+            TILECOUNT = len(i)
 
 
 def DisplayBoard():
@@ -45,7 +48,8 @@ def DisplayBoard():
     TileSize = floor(min(SCREEN_WIDTH, SCREEN_HEIGHT)/TILECOUNT)
     for row in BOARD:
         for item in enumerate(BOARD[row]):
-            Image =pygame.transform.scale(getImage(item[1]), (TileSize, TileSize))
+            Image = pygame.transform.scale(
+                getImage(item[1]), (TileSize, TileSize))
             SCREEN.blit(Image, (item[0]*TileSize, row*TileSize))
 
 
@@ -61,18 +65,24 @@ def getImage(TileName):
         global FountainImageDict
         return FountainImageDict[TileName[1]]
 
-# used to simmulate mixing Colors 
-COLORKEY = {0: (192,192,192), 1: (255, 0, 0), 2: (0, 157, 255), 3: (144, 0, 255), 
+
+# used to simmulate mixing Colors
+COLORKEY = {0: (192, 192, 192), 1: (255, 0, 0), 2: (0, 157, 255), 3: (144, 0, 255),
             4: (255, 196, 0), 5: (255, 115, 0), 6: (0, 255, 17), 7: (255, 255, 255)}
+
+
 def ColorMixer(RGB):
     key = 0
-    if RGB[0]: key += 1
-    if RGB[1]: key += 2
-    if RGB[2]: key += 4
+    if RGB[0]:
+        key += 1
+    if RGB[1]:
+        key += 2
+    if RGB[2]:
+        key += 4
     return COLORKEY[key]
 
 
-#Globals
+# Globals
 global NodesImageDict, PathsImageDict, FountainImageDict, BOARD, TILECOUNT, FPS, SCREEN_HEIGHT, SCREEN_WIDTH, WINDOW_SIZE, SCREEN, DISPLAY
 TILEIMAGESIZE = 20
 WINDOW_SIZE = (500, 500)
@@ -86,8 +96,7 @@ FountainImageDict = {}
 BOARD = {}
 
 
-
-#Window
+# Window
 pygame.display.set_caption("Template")
 # Set the Caption Window Like 'Terraria: Also Try Minecraft'
 DISPLAY = pygame.display.set_mode(WINDOW_SIZE, 0, 32)  # True Screen
@@ -96,8 +105,7 @@ SCREEN = pygame.Surface((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 
 
-
-#Game Function
+# Game Function
 
 def Game():
     PROGRAM_RUNNING = True
@@ -113,12 +121,11 @@ def Game():
         clock.tick(FPS)
 
 
-
-#PreProccesing
+# PreProccesing
 loadImagesWithName()
 readMapFile()
-print (BOARD)
-print (TILECOUNT)
+print(BOARD)
+print(TILECOUNT)
 #print (PathsImageDict, NodesImageDict)
 
 #------------------------------------------#
