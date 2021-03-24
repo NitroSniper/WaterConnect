@@ -1,3 +1,3 @@
-Path_2Way, Path_1Way, Path_2Way
-Node_1Way, Node_1Way, Path_1Way
-Fountain_1Way, Path_3Way, Path_2Way
+Paths_2WayV1, Paths_2WayV2, Paths_2WayV1
+Nodes_1Way, Nodes_1Way, Paths_2WayV2
+Fountains_1Way, Paths_3Way, Paths_2WayV1
