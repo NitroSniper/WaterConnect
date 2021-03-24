@@ -106,7 +106,7 @@ def Game():
             if event.type == QUIT:
                 PROGRAM_RUNNING = False
 
-
+        SCREEN.fill((255, 0, 0))
         DisplayBoard()
         DISPLAY.blit(pygame.transform.scale(SCREEN, WINDOW_SIZE), (0, 0))
         pygame.display.update()
