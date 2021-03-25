@@ -5,10 +5,16 @@ from pygame.locals import(
     QUIT,
 )
 
-class Tile(object):
-    def __init__(self, atype, position, RGB, Rotation=0):
-        self.type = atype
-
+class TileClass(object):
+    Tiles = []
+    def __init__(self, atype, position, RGB=(False*3), Rotation=0):
+        self.image = atype
+        self.position = position
+        self.RGB = RGB
+        self.Rotation = Rotation
+        Tile.Tiles.append(self)
+    def BlitTiles():
+        pass
 
 # Function
 
@@ -30,13 +36,25 @@ def loadImagesWithName():
             else:
                 PathsImageDict[path.split('\\')[-1].split('.')[0]] = Image
 
+def giveTileClass(value, position):
+    TileName = [tile.lstrip() for tile in TileName.split('_')]
+    if TileName[0] == 'Paths':
+        global PathsImageDict
+        TileClass(PathsImageDict(TileName[1], position))
+    elif TileName[0] == 'Nodes':
+        global NodesImageDict
+        TileClass(NodesImageDict(TileName[1], position))
+    else:
+        global FountainImageDict
+        TileClass(FountainImageDict(TileName[1], position))
 
 def readMapFile(fileName='map'):
     global BOARD, TILECOUNT
     with open(f'{fileName}.txt', 'r') as MapData:
-        for row in enumerate(MapData):
-            Value = [Tile.rstrip() for Tile in row[1].split(',')]
-            BOARD[row[0]] = Value
+        for index, row in enumerate(MapData):
+            Value = [Tile.rstrip() for Tile in row.split(',')]
+            classobject = giveTileClass(value, (index))
+            BOARD[index] = Value
     TILECOUNT = len(BOARD)  # Used to check which dimesion is the most
     for i in BOARD.values():
         if len(i) > TILECOUNT:
@@ -47,10 +65,10 @@ def DisplayBoard():
     global BOARD, TILECOUNT
     TileSize = floor(min(SCREEN_WIDTH, SCREEN_HEIGHT)/TILECOUNT)
     for row in BOARD:
-        for item in enumerate(BOARD[row]):
+        for index, item in enumerate(BOARD[row]):
             Image = pygame.transform.scale(
-                getImage(item[1]), (TileSize, TileSize))
-            SCREEN.blit(Image, (item[0]*TileSize, row*TileSize))
+                getImage(item), (TileSize, TileSize))
+            SCREEN.blit(Image, (index*TileSize, row*TileSize))
 
 
 def getImage(TileName):
